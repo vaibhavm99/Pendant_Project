@@ -1,47 +1,22 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial BTserial(10, 11); // RX | TX
-
-int sensorPin = A0;
-
-int sensorValue = 0;
-
+SoftwareSerial BTserial(10, 11); // RX | TX  
+int button = 2;
+int flag = 0;
 void setup() {
-
-BTserial.begin(9600); }
+  pinMode(button, INPUT);
+  BTserial.begin(9600); 
+}
 
 void loop() {
-
-sensorValue = analogRead(sensorPin);
-
-//IMPORTANT: The complete String has to be of the Form: 1234,1234,1234,1234;
-
-//(every Value has to be seperated through a comma (',') and the message has to
-
-//end with a semikolon (';'))
-
-BTserial.print("1234");
-
-BTserial.print(",");
-
-BTserial.print("1234.0");
-
-BTserial.print(",");
-
-BTserial.print("1234 hPa");
-
-BTserial.print(",");
-
-BTserial.print("500 ml/s");
-
-BTserial.print(",");
-
-BTserial.print(sensorValue);
-
-BTserial.print(";");
-
-//message to the receiving device
-
-delay(20);
+  if(digitalRead(button) == HIGH)
+    flag++;
+  if(flag == 3)     //If button pressed 3 times
+  {
+    flag = 0;
+    BTserial.print("1");             //EMERGENCY = 1
+  }
+  BTserial.print("0");              //NORMAL PING = 0   
+delay(100);
 
 }
