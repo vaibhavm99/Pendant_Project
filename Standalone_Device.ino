@@ -48,13 +48,37 @@ void loop()
   if(flag == 3)     //If button pressed 3 times
   {
     flag = 0;
-    SendMessage();          
+    SendMessage1();  // Can be edited for personal emergency contact
+    SendMessage2();  // NOT TO BE EDITED! SENDS SMS TO POLICE!
   }
  delay(500);    
 }
 
 
- void SendMessage()
+ void SendMessage1()
+{
+      sgsm.listen();
+      sgsm.print("\r");
+      delay(500);
+      sgsm.print("AT+CMGF=1\r");
+      delay(500);
+      sgsm.print("AT+CMGS=\"+91XXXXXXXXXX\"\r");            // Change the xx with phone number
+      delay(500);
+      sgsm.println("I need HELP! My location is ");
+      sgsm.print("https://www.google.com/maps/?q=");
+      sgsm.print(gpslat, 6);
+      sgsm.print(",");
+      sgsm.print(gpslon, 6);   
+      delay(500);
+      sgsm.write(0x1A);
+      delay(500); 
+   
+   
+      
+}
+
+
+void SendMessage2()
 {
       sgsm.listen();
       sgsm.print("\r");
@@ -63,8 +87,6 @@ void loop()
       delay(500);
       sgsm.print("AT+CMGS=\"+91XXXXXXXXXX\"\r");
       delay(500);
-      //The text of the message to be sent.
-   
       sgsm.println("I need HELP! My location is ");
       sgsm.print("https://www.google.com/maps/?q=");
       sgsm.print(gpslat, 6);
@@ -72,7 +94,9 @@ void loop()
       sgsm.print(gpslon, 6);   
       delay(500);
       sgsm.write(0x1A);
-      delay(500);
+      delay(500); 
+   
+   
       
 }
 
