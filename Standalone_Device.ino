@@ -1,29 +1,19 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial mySerial(9, 10);
-
+SoftwareSerial mySerial(9, 10);    // RX | TX
+int button = 2;
 void setup()
 {
   mySerial.begin(9600);   // Setting the baud rate of GSM Module  
-  Serial.begin(9600);    // Setting the baud rate of Serial Monitor (Arduino)
-  delay(100);
+  pinMode(button, INPUT);
 }
 
 
 void loop()
 {
-  if (Serial.available()>0)
-   switch(Serial.read())
-  {
-    case 's':
-      SendMessage();
-      break;
-    case 'r':
-      RecieveMessage();
-      break;
-  }
+  
 
- if (mySerial.available()>0)
+ if (mySerial.available()>0)             //Read any data coming from GSM Module
    Serial.write(mySerial.read());
 }
 
@@ -40,9 +30,3 @@ void loop()
   delay(1000);
 }
 
-
- void RecieveMessage()
-{
-  mySerial.println("AT+CNMI=2,2,0,0,0"); // AT Command to receive a live SMS
-  delay(1000);
- }
