@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h>
 #include <TinyGPS.h>
 
-int state = 0;
+
 float gpslat, gpslon;
 
 TinyGPS gps;
@@ -42,7 +42,6 @@ void loop()
     SendMessage();          
   }
      
-delay(100);
 }
 
 
@@ -61,12 +60,10 @@ delay(100);
       sgsm.print("https://www.google.com/maps/?q=");
       sgsm.print(gpslat, 6);
       sgsm.print(",");
-      sgsm.print(gpslon, 6);
-   
-   
-   delay(1000);
+      sgsm.print(gpslon, 6);   
+      delay(1000);
       sgsm.write(0x1A);
       delay(1000);
-      state = 1;
+      
 }
 
