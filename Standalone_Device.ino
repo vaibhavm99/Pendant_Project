@@ -17,7 +17,7 @@ void setup()
   pinMode(button, INPUT);
 }
 
-
+ float s = millis();
 void loop()
 {
   // Get GPS Location 
@@ -32,8 +32,17 @@ void loop()
   }
 
   // Increase button counter
+ 
   if(digitalRead(button) == HIGH)
+  {
     flag++;
+    float e = millis();
+    if((e-s)>5000)
+    {
+      flag = 0;
+      s = millis();
+    }
+  }
   
   
   if(flag == 3)     //If button pressed 3 times
@@ -41,7 +50,7 @@ void loop()
     flag = 0;
     SendMessage();          
   }
-     
+ delay(500);    
 }
 
 
@@ -49,11 +58,11 @@ void loop()
 {
       sgsm.listen();
       sgsm.print("\r");
-      delay(1000);
+      delay(500);
       sgsm.print("AT+CMGF=1\r");
-      delay(1000);
+      delay(500);
       sgsm.print("AT+CMGS=\"+91XXXXXXXXXX\"\r");
-      delay(1000);
+      delay(500);
       //The text of the message to be sent.
    
       sgsm.println("I need HELP! My location is ");
@@ -61,9 +70,9 @@ void loop()
       sgsm.print(gpslat, 6);
       sgsm.print(",");
       sgsm.print(gpslon, 6);   
-      delay(1000);
+      delay(500);
       sgsm.write(0x1A);
-      delay(1000);
+      delay(500);
       
 }
 
