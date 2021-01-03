@@ -20,16 +20,7 @@ void setup()
  float s = millis();
 void loop()
 {
-  // Get GPS Location 
-  sgps.listen();
-  while (sgps.available())
-  {
-    int c = sgps.read();
-    if (gps.encode(c))
-    {
-      gps.f_get_position(&gpslat, &gpslon);
-    }
-  }
+  
 
   // Increase button counter
  
@@ -48,6 +39,16 @@ void loop()
   if(flag == 3)     //If button pressed 3 times
   {
     flag = 0;
+    // Get GPS Location 
+  sgps.listen();
+  while (sgps.available())
+  {
+    int c = sgps.read();
+    if (gps.encode(c))
+    {
+      gps.f_get_position(&gpslat, &gpslon);
+    }
+  }
     SendMessage1();  // Can be edited for personal emergency contact
     SendMessage2();  // NOT TO BE EDITED! SENDS SMS TO POLICE!
   }
